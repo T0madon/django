@@ -2,7 +2,6 @@ from django.shortcuts import render
 from blog.data import posts
 
 def blog(request):
-    print('blog')
 
     context = {
             'posts' : posts
@@ -14,17 +13,23 @@ def blog(request):
         context
     )
 
-def post(request, id):
-    print('post', id)
+def post(request, post_id):
+    found_post = None
+
+    for post in posts:
+        if post['id'] == post_id:
+            found_post = post
+            break
+
 
     context = {
-            # 'text' : 'Olá blog',
-            'posts' : posts
+            'post' : found_post,
+            'title' : found_post['title'] + ' - '
         }
 
     return render(
         request,
-        'blog/index.html',
+        'blog/post.html',
         context
     )
 
